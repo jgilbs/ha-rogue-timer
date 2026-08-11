@@ -23,7 +23,8 @@ from .const import CONNECT_ATTEMPTS, FRAME_HEADER, OP_KEYPRESS, WRITE_CHAR_UUID,
 _LOGGER = logging.getLogger(__name__)
 
 DISCONNECT_DELAY = 90  # keep the link up briefly between commands
-INTER_KEY_DELAY = 0.15  # verified on hardware — 16-key macros land cleanly
+INTER_KEY_DELAY = 0.05  # verified on hardware — 16-key macros land cleanly
+# (slower transports like ESPHome proxies only stretch this, which is safe)
 
 
 class RogueTimerClient:
