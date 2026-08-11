@@ -36,8 +36,18 @@ Full GATT layout of the timer:
 | FFE1 | 0x0011 | read, write, write-no-rsp, notify | **keypress TX** |
 | FFE3 | 0x0014 | notify | unknown |
 
-The timer sends `01 02 50 07` notifications after Exit; meaning not yet
-decoded. Timer mode counts **up** to the set target, not down.
+In **TBT (Tabata) mode only**, the timer notifies status frames on FFE1
+(`01 02 50 <event>` — opcode, payload length, class, event code), including
+for physical keypresses. All other modes send nothing:
+
+| Event | Meaning |
+|-------|---------|
+| 0x00 | tick — every second while running |
+| 0x03 | run started |
+| 0x05 | run stopped/paused |
+| 0x07 | exited to clock display |
+
+Timer mode counts **up** to the set target, not down.
 
 ## Entities
 
@@ -45,8 +55,9 @@ decoded. Timer mode counts **up** to the set target, not down.
   every mode (Interval, Count, Timer, FGB, Tabata, Clock, EMOM, Warmup),
   navigation (Up/Down/Left/Right, Set, Exit), Brightness, 12/24 hr, +10, and
   Volume up/down.
-- Macro buttons: 2/5/10-minute timer presets (verified on hardware — note the
-  timer counts up to the target; sequences live in `MACROS` in `const.py`).
+- Macro buttons: 2/5/10-minute **countdown** presets. Timer mode only counts
+  up, so these use Interval mode with 0 sets and 0 rest, which behaves as a
+  true countdown (sequences live in `MACROS` in `const.py`).
 - Remote: `remote.send_command` accepts every named command from `COMMANDS`
   in `const.py` **or raw key codes** (`"0x12"`, `"18"`) — so you can probe
   for new codes from Developer Tools → Actions without touching code.

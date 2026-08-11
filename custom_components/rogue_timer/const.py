@@ -19,6 +19,23 @@ WRITE_CHAR_UUID = "0000ffe1-0000-1000-8000-00805f9b34fb"
 FRAME_HEADER = bytes([0x55, 0xAA])
 OP_KEYPRESS = 0x01
 
+# Notifications (RX on FFE1), decoded on hardware 2026-08-11. TBT (Tabata)
+# mode ONLY — every other mode is silent; likely built for an app
+# Tabata-follow feature. Frame:  01 02 50 <event>  — reading: 01 = report
+# opcode, 02 = payload length, 0x50 = payload class (constant so far),
+# <event> = code below. Fired by physical keypresses too, so HA can track
+# externally-driven state, but only while the timer is in TBT mode.
+NOTIFY_HEADER = bytes([0x01, 0x02, 0x50])
+
+
+class NotifyEvent(IntEnum):
+    """Status event codes observed from the timer (last frame byte)."""
+
+    TICK = 0x00   # every second while running
+    START = 0x03  # run started
+    STOP = 0x05   # run stopped/paused
+    EXIT = 0x07   # returned to clock display
+
 
 class KeyCode(IntEnum):
     """Key codes confirmed from app captures."""
@@ -93,25 +110,30 @@ CONNECT_ATTEMPTS = 3
 # ---------------------------------------------------------------------------
 # Macros — named key sequences sent with an inter-key delay.
 #
-# Sequence confirmed on hardware 2026-08-11: Timer mode, MMSS digits,
-# Start — no SET confirm needed. Note: Timer mode counts UP to the set
-# target, not down. Tune here only — buttons pick these up by name.
+# Countdown presets use Interval mode with 0 sets and 0 rest, which behaves
+# as a true countdown (Timer mode only counts up). Field order confirmed on
+# hardware 2026-08-11: INTERVAL, SET, sets (2 digits), SET, work (MMSS),
+# SET, rest (MMSS), SET, START. Tune here only — buttons pick these up by
+# name.
 # ---------------------------------------------------------------------------
 
+
+def _digits(value: str) -> tuple[KeyCode, ...]:
+    return tuple(KeyCode(0x13 + int(c)) for c in value)
+
+
+def _countdown(work_mmss: str) -> tuple[KeyCode, ...]:
+    return (
+        KeyCode.MODE_INTERVAL, KeyCode.SET,
+        *_digits("00"), KeyCode.SET,          # sets = 0
+        *_digits(work_mmss), KeyCode.SET,     # work = countdown length
+        *_digits("0000"), KeyCode.SET,        # rest = 0
+        KeyCode.START_STOP,
+    )
+
+
 MACROS: dict[str, tuple[KeyCode, ...]] = {
-    "timer_2min": (
-        KeyCode.MODE_TIMER,
-        KeyCode.DIGIT_2, KeyCode.DIGIT_0, KeyCode.DIGIT_0,
-        KeyCode.START_STOP,
-    ),
-    "timer_5min": (
-        KeyCode.MODE_TIMER,
-        KeyCode.DIGIT_5, KeyCode.DIGIT_0, KeyCode.DIGIT_0,
-        KeyCode.START_STOP,
-    ),
-    "timer_10min": (
-        KeyCode.MODE_TIMER,
-        KeyCode.DIGIT_1, KeyCode.DIGIT_0, KeyCode.DIGIT_0, KeyCode.DIGIT_0,
-        KeyCode.START_STOP,
-    ),
+    "timer_2min": _countdown("0200"),
+    "timer_5min": _countdown("0500"),
+    "timer_10min": _countdown("1000"),
 }
