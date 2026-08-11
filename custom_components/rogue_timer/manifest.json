@@ -1,0 +1,22 @@
+{
+  "domain": "rogue_timer",
+  "name": "Rogue Gym Timer",
+  "codeowners": ["@jgilbs"],
+  "config_flow": true,
+  "dependencies": ["bluetooth_adapters"],
+  "documentation": "https://github.com/jgilbs/ha-rogue-timer",
+  "integration_type": "device",
+  "iot_class": "local_push",
+  "bluetooth": [
+    {
+      "local_name": "Rogue*",
+      "connectable": true
+    },
+    {
+      "local_name": "ROGUE*",
+      "connectable": true
+    }
+  ],
+  "requirements": ["bleak>=0.21.0", "bleak-retry-connector>=3.5.0"],
+  "version": "0.1.0"
+}

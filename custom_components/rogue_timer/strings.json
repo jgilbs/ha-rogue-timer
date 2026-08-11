@@ -1,0 +1,107 @@
+{
+  "config": {
+    "flow_title": "{name}",
+    "step": {
+      "user": {
+        "title": "Select your Rogue timer",
+        "description": "Choose the timer from the list of Bluetooth devices currently visible to Home Assistant (including via Bluetooth proxies).",
+        "data": {
+          "address": "Device"
+        }
+      },
+      "bluetooth_confirm": {
+        "title": "Rogue timer found",
+        "description": "Set up {name}?"
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not connect to the timer. Make sure it is powered on and not paired to the Rogue app."
+    },
+    "abort": {
+      "already_configured": "This timer is already configured.",
+      "no_devices_found": "No Bluetooth devices are currently visible."
+    }
+  },
+  "entity": {
+    "button": {
+      "power": {
+        "name": "Power"
+      },
+      "mute": {
+        "name": "Mute"
+      },
+      "interval": {
+        "name": "Interval mode"
+      },
+      "exit": {
+        "name": "Exit"
+      },
+      "timer": {
+        "name": "Timer mode"
+      },
+      "fgb": {
+        "name": "FGB mode"
+      },
+      "tbt": {
+        "name": "Tabata mode"
+      },
+      "count": {
+        "name": "Count mode"
+      },
+      "brightness": {
+        "name": "Brightness"
+      },
+      "clock_12_24": {
+        "name": "12/24 hr"
+      },
+      "plus_10": {
+        "name": "+10"
+      },
+      "clock": {
+        "name": "Clock mode"
+      },
+      "reset": {
+        "name": "Reset"
+      },
+      "warmup": {
+        "name": "Warmup"
+      },
+      "emom": {
+        "name": "EMOM mode"
+      },
+      "vol_up": {
+        "name": "Volume up"
+      },
+      "vol_down": {
+        "name": "Volume down"
+      },
+      "start_stop": {
+        "name": "Start/Stop"
+      },
+      "up": {
+        "name": "Up"
+      },
+      "down": {
+        "name": "Down"
+      },
+      "left": {
+        "name": "Left"
+      },
+      "right": {
+        "name": "Right"
+      },
+      "set": {
+        "name": "Set"
+      },
+      "timer_2min": {
+        "name": "2 min timer"
+      },
+      "timer_5min": {
+        "name": "5 min timer"
+      },
+      "timer_10min": {
+        "name": "10 min timer"
+      }
+    }
+  }
+}
