@@ -113,8 +113,9 @@ CONNECT_ATTEMPTS = 3
 # Countdown presets use Interval mode with 0 sets and 0 rest, which behaves
 # as a true countdown (Timer mode only counts up). Field order confirmed on
 # hardware 2026-08-11: INTERVAL, SET, sets (2 digits), SET, work (MMSS),
-# SET, rest (MMSS), SET, START. Tune here only — buttons pick these up by
-# name.
+# SET, rest (MMSS), SET. The presets only program the countdown — start it
+# with start_interval (or the Start/Stop key). Tune here only — buttons
+# pick these up by name.
 # ---------------------------------------------------------------------------
 
 
@@ -128,11 +129,12 @@ def _countdown(work_mmss: str) -> tuple[KeyCode, ...]:
         *_digits("00"), KeyCode.SET,          # sets = 0
         *_digits(work_mmss), KeyCode.SET,     # work = countdown length
         *_digits("0000"), KeyCode.SET,        # rest = 0
-        KeyCode.START_STOP,
     )
 
 
 MACROS: dict[str, tuple[KeyCode, ...]] = {
+    "start_interval": (KeyCode.MODE_INTERVAL, KeyCode.START_STOP),
+    "timer_1min": _countdown("0100"),
     "timer_2min": _countdown("0200"),
     "timer_5min": _countdown("0500"),
     "timer_10min": _countdown("1000"),

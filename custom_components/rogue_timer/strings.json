@@ -93,6 +93,12 @@
       "set": {
         "name": "Set"
       },
+      "start_interval": {
+        "name": "Start interval"
+      },
+      "timer_1min": {
+        "name": "1 min timer"
+      },
       "timer_2min": {
         "name": "2 min timer"
       },

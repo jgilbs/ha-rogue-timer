@@ -55,9 +55,11 @@ Timer mode counts **up** to the set target, not down.
   every mode (Interval, Count, Timer, FGB, Tabata, Clock, EMOM, Warmup),
   navigation (Up/Down/Left/Right, Set, Exit), Brightness, 12/24 hr, +10, and
   Volume up/down.
-- Macro buttons: 2/5/10-minute **countdown** presets. Timer mode only counts
-  up, so these use Interval mode with 0 sets and 0 rest, which behaves as a
-  true countdown (sequences live in `MACROS` in `const.py`).
+- Macro buttons: 1/2/5/10-minute **countdown** presets plus **Start
+  interval**. Timer mode only counts up, so the presets program Interval
+  mode with 0 sets and 0 rest, which behaves as a true countdown. Presets
+  only configure — fire Start interval (or Start/Stop) to run. Sequences
+  live in `MACROS` in `const.py`.
 - Remote: `remote.send_command` accepts every named command from `COMMANDS`
   in `const.py` **or raw key codes** (`"0x12"`, `"18"`) — so you can probe
   for new codes from Developer Tools → Actions without touching code.

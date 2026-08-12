@@ -161,6 +161,18 @@ BUTTONS: tuple[RogueButtonDescription, ...] = (
 
 MACRO_BUTTONS: tuple[RogueMacroDescription, ...] = (
     RogueMacroDescription(
+        key="start_interval",
+        translation_key="start_interval",
+        icon="mdi:play",
+        macro="start_interval",
+    ),
+    RogueMacroDescription(
+        key="timer_1min",
+        translation_key="timer_1min",
+        icon="mdi:timer-outline",
+        macro="timer_1min",
+    ),
+    RogueMacroDescription(
         key="timer_2min",
         translation_key="timer_2min",
         icon="mdi:timer-outline",
