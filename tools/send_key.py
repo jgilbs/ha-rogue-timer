@@ -159,8 +159,11 @@ async def repl(address: str) -> None:
                 if keys is None:
                     print(f"Unknown macro. Have: {', '.join(sorted(const.MACROS))}")
                     continue
+                default_delay = getattr(const, "MACRO_DELAYS", {}).get(
+                    name, INTER_KEY_DELAY
+                )
                 try:
-                    delay = float(delay_arg) if delay_arg else INTER_KEY_DELAY
+                    delay = float(delay_arg) if delay_arg else default_delay
                 except ValueError:
                     print(f"Bad delay {delay_arg!r} — use seconds, e.g. 0.5")
                     continue

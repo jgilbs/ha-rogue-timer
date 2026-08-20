@@ -112,9 +112,13 @@ class RogueTimerClient:
             _LOGGER.debug("%s: TX %s", self.name, frame.hex(" "))
             await client.write_gatt_char(WRITE_CHAR_UUID, frame, response=False)
 
-    async def send_keys(self, keys: list[KeyCode | int]) -> None:
+    async def send_keys(
+        self, keys: list[KeyCode | int], delay: float | None = None
+    ) -> None:
         """Send a sequence of keypresses with a human-like inter-key delay."""
+        if delay is None:
+            delay = INTER_KEY_DELAY
         for i, key in enumerate(keys):
             if i:
-                await asyncio.sleep(INTER_KEY_DELAY)
+                await asyncio.sleep(delay)
             await self.send_key(key)

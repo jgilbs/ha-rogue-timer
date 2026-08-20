@@ -140,3 +140,11 @@ MACROS: dict[str, tuple[KeyCode, ...]] = {
     "timer_5min": _countdown("0500"),
     "timer_10min": _countdown("1000"),
 }
+
+# Per-macro inter-key delay overrides (seconds). Entering interval mode
+# takes longer than a keypress to settle: Start registers at 0.5s spacing
+# but is dropped at 0.1s (hardware-verified). Digit/SET entry within setup
+# is fine at the default delay.
+MACRO_DELAYS: dict[str, float] = {
+    "start_interval": 0.5,
+}

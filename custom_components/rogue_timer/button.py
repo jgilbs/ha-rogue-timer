@@ -9,7 +9,7 @@ from homeassistant.helpers.device_registry import CONNECTION_BLUETOOTH, DeviceIn
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from . import RogueTimerConfigEntry
-from .const import DOMAIN, MACROS, KeyCode
+from .const import DOMAIN, MACRO_DELAYS, MACROS, KeyCode
 from .rogue_ble import RogueTimerClient
 
 
@@ -254,4 +254,7 @@ class RogueTimerMacroButton(ButtonEntity):
         )
 
     async def async_press(self) -> None:
-        await self._client.send_keys(list(MACROS[self.entity_description.macro]))
+        name = self.entity_description.macro
+        await self._client.send_keys(
+            list(MACROS[name]), delay=MACRO_DELAYS.get(name)
+        )
